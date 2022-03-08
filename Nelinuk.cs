@@ -8,41 +8,107 @@ namespace Nelinurk
 {
     public class Nelinuk
     {
-        int laius;
+        int pikkus;
         int korgus;
-        int tuup;
         int pindala;
-        int umbermoot;
+        int laius;
+        bool g;
+        string type;
+        double ombermoot;
+        int[] tuup = new int[4];
         public Nelinuk() { }
-        public Nelinuk(int korgus, int laius)
+        public Nelinuk(int pikkus, int laius, int korgus)
         {
-            this.korgus = korgus;
+            this.pikkus = pikkus;
             this.laius = laius;
+            this.korgus = korgus;
+        }
+        public Nelinuk(int pikkus, int korgus)
+        {
+            this.pikkus = pikkus;
+            this.korgus = pikkus;
+        }
+        public string Tuup
+        {
+            get
+            {
+                if (pikkus == laius && korgus == 0)
+                {
+                    type = "Ruut";
+                }
+                else if (pikkus != laius)
+                {
+                    type = "Ristkülik";
+                }
+                else if (tuup[0] + tuup[1] == 180 || tuup[0] + tuup[2] == 180)
+                {
+                    type = "Parallelogramm";
+                }
+                return type;
+            }
 
         }
-        public int Arvu()
+        public bool Figura
         {
-            for (int i = 0; i < 4; i++)
+            get
             {
-                Console.Write($"Sisestage nurk {i + 1}: ");
-                tuup = int.Parse(Console.ReadLine());
+                int sum = 0;
+                for (int i = 0; i < tuup.Length; i++)
+                {
+                    sum += tuup[i];
+
+                }
+                if (sum != 360)
+                {
+                    g = true;
+                }
+                else
+                {
+                    g = false;
+                }
+                return g;
             }
-            return tuup;
-        }
-        public int Pindala()
+
+        } 
+        public double Pindala()
         {
-            pindala = korgus * laius;
+            if (type == "Ruut" )
+            {
+                pindala = pikkus * pikkus;
+                Console.WriteLine($"Nelinurga tüüp => Ruut");
+            }
+            else if (type == "Ristkülik")
+            {
+                pindala = pikkus * laius;
+                Console.WriteLine($"Nelinurga tüüp => Ristkülik");
+            }
+            else if (type == "Parallelogramm")
+            {
+                pindala = korgus * pikkus;
+                Console.WriteLine($"Nelinurga tüüp => Parallelogramm");
+            }
+            else
+            {
+                Console.WriteLine("Figuuri ei eksisteeri!");
+            }
             return pindala;
         }
-        public int Umbermoot()
+        public double Ombermoot()
         {
-            umbermoot = (korgus + laius) * 2;
-            return umbermoot;
+            ombermoot = (pikkus + laius) * 2;
+            return ombermoot;
         }
-        public void Hommik()
+        public void Task()
         {
-            Console.WriteLine($"Pindala: {Pindala()}\nÜmbermõõt: {Umbermoot()}");
-        }
+            if (g == false)
+            {
+                Console.WriteLine($"Pindala: {Pindala()}\nÕmbermõõt: {Ombermoot()}");
+            }
+            else if (g == true)
+            {
+                Console.WriteLine("Figuuri ei eksisteeri!");
+            }
 
+        }
     }
 }
